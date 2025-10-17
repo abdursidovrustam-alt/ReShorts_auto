@@ -1,0 +1,33 @@
+# ReShorts - Зависимости проекта
+
+# Web фреймворк
+Flask==3.0.0
+flask-cors==4.0.0
+
+# Загрузчики видео (без API)
+yt-dlp>=2023.12.30
+instagrapi>=2.1.0
+TikTokApi>=6.0.0
+
+# AI провайдеры (бесплатные)
+g4f>=0.2.0
+google-generativeai>=0.3.0
+
+# HTTP запросы
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# Обработка видео
+opencv-python>=4.8.0
+moviepy>=1.0.3
+Pillow>=10.0.0
+
+# Дополнительные библиотеки
+python-dotenv>=1.0.0
+pyyaml>=6.0
+
+# Для работы с датой и временем
+python-dateutil>=2.8.0
+
+# Для playwright (используется TikTokApi)
+playwright>=1.40.0
