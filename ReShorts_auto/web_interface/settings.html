@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReShorts - Настройки</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .settings-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: #2a2a2a;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab.active {
+            background: #FF6B6B;
+            transform: translateY(2px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .settings-section {
+            background: #2a2a2a;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .settings-section h3 {
+            color: #FF6B6B;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #FF6B6B;
+            padding-bottom: 10px;
+        }
+
+        .setting-item {
+            margin-bottom: 20px;
+        }
+
+        .setting-item label {
+            display: block;
+            color: #ddd;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .setting-item input[type="text"],
+        .setting-item input[type="number"],
+        .setting-item select,
+        .setting-item textarea {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px solid #444;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .setting-item input:focus,
+        .setting-item select:focus,
+        .setting-item textarea:focus {
+            outline: none;
+            border-color: #FF6B6B;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .setting-item textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: monospace;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .priority-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            border: 2px solid #444;
+        }
+
+        .priority-number {
+            width: 40px;
+            height: 40px;
+            background: #FF6B6B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .priority-item label {
+            flex: 1;
+            margin: 0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #FF6B6B;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: #4CAF50;
+        }
+
+        .btn-secondary:hover {
+            background: #45a049;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: flex-end;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.active {
+            background: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+        }
+
+        .status-indicator.inactive {
+            background: #999;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.error {
+            background: #f44336;
+        }
+
+        .toast.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <a href="index.html" class="back-link">← Назад к главной</a>
+        <h1>⚙️ Настройки ReShorts</h1>
+        
+        <div class="toast" id="toast"></div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="search">🔍 Поиск</button>
+            <button class="tab" data-tab="ai">🤖 AI Провайдеры</button>
+            <button class="tab" data-tab="download">📥 Скачивание</button>
+            <button class="tab" data-tab="processing">⚡ Обработка</button>
+            <button class="tab" data-tab="scenarios">📋 Сценарии</button>
+        </div>
+
+        <!-- Вкладка: Поиск -->
+        <div class="tab-content active" id="search-tab">
+            <div class="settings-section">
+                <h3>Параметры поиска контента</h3>
+                
+                <div class="setting-item">
+                    <label>Поисковые запросы / Хештеги:</label>
+                    <textarea id="search_queries" placeholder="Введите запросы или хештеги, каждый с новой строки&#10;Пример:&#10;#viral&#10;funny cats&#10;#trending"></textarea>
+                    <div class="help-text">Каждый запрос или хештег с новой строки</div>
+                </div>
+
+                <div class="setting-item">
+                    <label>Максимальное количество результатов на запрос:</label>
+                    <input type="number" id="max_results" min="1" max="100" value="10">
+                </div>
+
+                <div class="setting-item">
+                    <label>Период поиска:</label>
+                    <select id="date_range">
+                        <option value="today">Сегодня</option>
+                        <option value="this_week">Эта неделя</option>
+                        <option value="this_month">Этот месяц</option>
+                        <option value="this_year">Этот год</option>
+                        <option value="all_time">Все время</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label>Минимальное количество просмотров:</label>
+                    <input type="number" id="min_views" min="0" value="1000">
+                </div>
+
+                <div class="setting-item">
+                    <label>Минимальный engagement rate (%):</label>
+                    <input type="number" id="min_engagement" min="0" max="100" step="0.1" value="5.0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: AI Провайдеры -->
+        <div class="tab-content" id="ai-tab">
+            <div class="settings-section">
+                <h3>Приоритет AI провайдеров</h3>
+                <p style="color: #888; margin-bottom: 20px;">Система автоматически переключится на следующий провайдер при ошибке</p>
+                
+                <div class="priority-list">
+                    <div class="priority-item">
+                        <div class="priority-number">1</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>GPT4Free</strong></div>
+                            <div class="help-text">Бесплатный доступ к различным AI моделям</div>
+                        </label>
+                        <input type="checkbox" id="ai_gpt4free_enabled" checked>
+                    </div>
+
+                    <div class="priority-item">
+                        <div class="priority-number">2</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>OpenRouter (DeepSeek)</strong></div>
+                            <div class="help-text">Бесплатный доступ через OpenRouter</div>
+                        </label>
+                        <input type="checkbox" id="ai_openrouter_enabled" checked>
+                    </div>
+
+                    <div class="priority-item">
+                        <div class="priority-number">3</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>Google Gemini</strong></div>
+                            <div class="help-text">Бесплатный API от Google</div>
+                        </label>
+                        <input type="checkbox" id="ai_gemini_enabled" checked>
+                    </div>
+
+                    <div class="priority-item">
+                        <div class="priority-number">4</div>
+                        <label>
+                            <div><span class="status-indicator inactive"></span><strong>LocalAI (опционально)</strong></div>
+                            <div class="help-text">Локальная модель на вашем сервере</div>
+                        </label>
+                        <input type="checkbox" id="ai_localai_enabled">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Дополнительные настройки AI</h3>
+                
+                <div class="setting-item">
+                    <label>Timeout для запросов (секунды):</label>
+                    <input type="number" id="ai_timeout" min="10" max="300" value="30">
+                </div>
+
+                <div class="setting-item">
+                    <label>Максимальное количество попыток:</label>
+                    <input type="number" id="ai_max_retries" min="1" max="10" value="3">
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ai_cache_enabled" checked>
+                    <label>Использовать кэширование результатов</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Скачивание -->
+        <div class="tab-content" id="download-tab">
+            <div class="settings-section">
+                <h3>Приоритет методов скачивания</h3>
+                
+                <div class="priority-list">
+                    <div class="priority-item">
+                        <div class="priority-number">1</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>yt-dlp</strong></div>
+                            <div class="help-text">Универсальный загрузчик для YouTube, TikTok и других</div>
+                        </label>
+                        <input type="checkbox" id="dl_ytdlp_enabled" checked>
+                    </div>
+
+                    <div class="priority-item">
+                        <div class="priority-number">2</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>Instagrapi</strong></div>
+                            <div class="help-text">Специализированный загрузчик для Instagram</div>
+                        </label>
+                        <input type="checkbox" id="dl_instagrapi_enabled" checked>
+                    </div>
+
+                    <div class="priority-item">
+                        <div class="priority-number">3</div>
+                        <label>
+                            <div><span class="status-indicator active"></span><strong>TikTok Scraper</strong></div>
+                            <div class="help-text">Специализированный загрузчик для TikTok</div>
+                        </label>
+                        <input type="checkbox" id="dl_tiktok_enabled" checked>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Параметры скачивания</h3>
+                
+                <div class="setting-item">
+                    <label>Качество видео:</label>
+                    <select id="video_quality">
+                        <option value="best">Лучшее</option>
+                        <option value="1080p">1080p</option>
+                        <option value="720p">720p</option>
+                        <option value="480p">480p</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label>Максимальный размер файла (МБ):</label>
+                    <input type="number" id="max_file_size" min="10" max="1000" value="100">
+                </div>
+
+                <div class="setting-item">
+                    <label>Папка для загрузок:</label>
+                    <input type="text" id="download_path" value="downloads">
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="download_subtitles">
+                    <label>Скачивать субтитры</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="download_thumbnail" checked>
+                    <label>Скачивать превью</label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Прокси (опционально)</h3>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="proxy_enabled">
+                    <label>Использовать прокси</label>
+                </div>
+
+                <div class="setting-item">
+                    <label>Прокси URL:</label>
+                    <input type="text" id="proxy_url" placeholder="http://proxy.example.com:8080">
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Обработка -->
+        <div class="tab-content" id="processing-tab">
+            <div class="settings-section">
+                <h3>Параметры обработки видео</h3>
+                
+                <div class="setting-item">
+                    <label>Длительность клипов (секунды):</label>
+                    <input type="number" id="clip_duration" min="5" max="60" value="30">
+                </div>
+
+                <div class="setting-item">
+                    <label>Количество клипов на видео:</label>
+                    <input type="number" id="clips_per_video" min="1" max="10" value="3">
+                </div>
+
+                <div class="setting-item">
+                    <label>Формат вывода:</label>
+                    <select id="output_format">
+                        <option value="mp4">MP4</option>
+                        <option value="webm">WebM</option>
+                        <option value="mkv">MKV</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label>Битрейт видео (kbps):</label>
+                    <input type="number" id="video_bitrate" min="500" max="10000" value="2500">
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="auto_crop" checked>
+                    <label>Автоматическая обрезка (9:16 для Shorts)</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="add_watermark">
+                    <label>Добавить водяной знак</label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Фильтры контента</h3>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="filter_duplicates" checked>
+                    <label>Фильтровать дубликаты</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="filter_low_quality" checked>
+                    <label>Фильтровать низкокачественный контент</label>
+                </div>
+
+                <div class="setting-item">
+                    <label>Исключить слова (через запятую):</label>
+                    <textarea id="exclude_keywords" placeholder="Например: реклама, sponsored, ad"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Сценарии -->
+        <div class="tab-content" id="scenarios-tab">
+            <div class="settings-section">
+                <h3>Сценарии работы</h3>
+                <p style="color: #888; margin-bottom: 20px;">Выберите, какие действия выполнять автоматически</p>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="scenario_auto_search" checked>
+                    <label><strong>Автоматический поиск</strong> - искать новый контент по расписанию</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="scenario_auto_download" checked>
+                    <label><strong>Автоматическое скачивание</strong> - скачивать найденные видео</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="scenario_auto_analyze" checked>
+                    <label><strong>Автоматический анализ</strong> - анализировать скачанные видео с помощью AI</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="scenario_auto_process">
+                    <label><strong>Автоматическая обработка</strong> - создавать клипы из проанализированных видео</label>
+                </div>
+
+                <div class="setting-item">
+                    <label>Интервал автоматического запуска (минуты):</label>
+                    <input type="number" id="auto_run_interval" min="5" max="1440" value="60">
+                    <div class="help-text">0 = отключить автоматический запуск</div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Уведомления</h3>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="notify_on_complete" checked>
+                    <label>Уведомлять о завершении обработки</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="notify_on_error" checked>
+                    <label>Уведомлять об ошибках</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="loadSettings()">🔄 Сбросить</button>
+            <button class="btn btn-secondary" onclick="exportSettings()">📤 Экспорт</button>
+            <button class="btn btn-secondary" onclick="importSettings()">📥 Импорт</button>
+            <button class="btn" onclick="saveSettings()">💾 Сохранить настройки</button>
+        </div>
+    </div>
+
+    <script>
+        // Переключение вкладок
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                // Убрать активность со всех вкладок
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Активировать текущую вкладку
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            });
+        });
+
+        // Показать уведомление
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Загрузить настройки с сервера
+        async function loadSettings() {
+            try {
+                const response = await fetch('/api/config/get');
+                if (!response.ok) throw new Error('Ошибка загрузки настроек');
+                
+                const config = await response.json();
+                
+                // Поиск
+                document.getElementById('search_queries').value = config.search?.queries?.join('\n') || '';
+                document.getElementById('max_results').value = config.search?.max_results || 10;
+                document.getElementById('date_range').value = config.search?.date_range || 'this_week';
+                document.getElementById('min_views').value = config.search?.min_views || 1000;
+                document.getElementById('min_engagement').value = config.search?.min_engagement || 5.0;
+                
+                // AI провайдеры
+                document.getElementById('ai_gpt4free_enabled').checked = config.ai?.providers?.gpt4free?.enabled !== false;
+                document.getElementById('ai_openrouter_enabled').checked = config.ai?.providers?.openrouter?.enabled !== false;
+                document.getElementById('ai_gemini_enabled').checked = config.ai?.providers?.gemini?.enabled !== false;
+                document.getElementById('ai_localai_enabled').checked = config.ai?.providers?.localai?.enabled || false;
+                document.getElementById('ai_timeout').value = config.ai?.timeout || 30;
+                document.getElementById('ai_max_retries').value = config.ai?.max_retries || 3;
+                document.getElementById('ai_cache_enabled').checked = config.ai?.cache_enabled !== false;
+                
+                // Скачивание
+                document.getElementById('dl_ytdlp_enabled').checked = config.download?.methods?.ytdlp?.enabled !== false;
+                document.getElementById('dl_instagrapi_enabled').checked = config.download?.methods?.instagrapi?.enabled !== false;
+                document.getElementById('dl_tiktok_enabled').checked = config.download?.methods?.tiktok?.enabled !== false;
+                document.getElementById('video_quality').value = config.download?.video_quality || 'best';
+                document.getElementById('max_file_size').value = config.download?.max_file_size || 100;
+                document.getElementById('download_path').value = config.download?.path || 'downloads';
+                document.getElementById('download_subtitles').checked = config.download?.subtitles || false;
+                document.getElementById('download_thumbnail').checked = config.download?.thumbnail !== false;
+                document.getElementById('proxy_enabled').checked = config.download?.proxy?.enabled || false;
+                document.getElementById('proxy_url').value = config.download?.proxy?.url || '';
+                
+                // Обработка
+                document.getElementById('clip_duration').value = config.processing?.clip_duration || 30;
+                document.getElementById('clips_per_video').value = config.processing?.clips_per_video || 3;
+                document.getElementById('output_format').value = config.processing?.output_format || 'mp4';
+                document.getElementById('video_bitrate').value = config.processing?.video_bitrate || 2500;
+                document.getElementById('auto_crop').checked = config.processing?.auto_crop !== false;
+                document.getElementById('add_watermark').checked = config.processing?.add_watermark || false;
+                document.getElementById('filter_duplicates').checked = config.processing?.filter_duplicates !== false;
+                document.getElementById('filter_low_quality').checked = config.processing?.filter_low_quality !== false;
+                document.getElementById('exclude_keywords').value = config.processing?.exclude_keywords?.join(', ') || '';
+                
+                // Сценарии
+                document.getElementById('scenario_auto_search').checked = config.scenarios?.auto_search !== false;
+                document.getElementById('scenario_auto_download').checked = config.scenarios?.auto_download !== false;
+                document.getElementById('scenario_auto_analyze').checked = config.scenarios?.auto_analyze !== false;
+                document.getElementById('scenario_auto_process').checked = config.scenarios?.auto_process || false;
+                document.getElementById('auto_run_interval').value = config.scenarios?.auto_run_interval || 60;
+                document.getElementById('notify_on_complete').checked = config.scenarios?.notify_on_complete !== false;
+                document.getElementById('notify_on_error').checked = config.scenarios?.notify_on_error !== false;
+                
+                showToast('✅ Настройки загружены');
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                showToast('❌ Ошибка загрузки настроек', true);
+            }
+        }
+
+        // Сохранить настройки на сервер
+        async function saveSettings() {
+            try {
+                const config = {
+                    search: {
+                        queries: document.getElementById('search_queries').value.split('\n').filter(q => q.trim()),
+                        max_results: parseInt(document.getElementById('max_results').value),
+                        date_range: document.getElementById('date_range').value,
+                        min_views: parseInt(document.getElementById('min_views').value),
+                        min_engagement: parseFloat(document.getElementById('min_engagement').value)
+                    },
+                    ai: {
+                        providers: {
+                            gpt4free: { enabled: document.getElementById('ai_gpt4free_enabled').checked },
+                            openrouter: { enabled: document.getElementById('ai_openrouter_enabled').checked },
+                            gemini: { enabled: document.getElementById('ai_gemini_enabled').checked },
+                            localai: { enabled: document.getElementById('ai_localai_enabled').checked }
+                        },
+                        timeout: parseInt(document.getElementById('ai_timeout').value),
+                        max_retries: parseInt(document.getElementById('ai_max_retries').value),
+                        cache_enabled: document.getElementById('ai_cache_enabled').checked
+                    },
+                    download: {
+                        methods: {
+                            ytdlp: { enabled: document.getElementById('dl_ytdlp_enabled').checked },
+                            instagrapi: { enabled: document.getElementById('dl_instagrapi_enabled').checked },
+                            tiktok: { enabled: document.getElementById('dl_tiktok_enabled').checked }
+                        },
+                        video_quality: document.getElementById('video_quality').value,
+                        max_file_size: parseInt(document.getElementById('max_file_size').value),
+                        path: document.getElementById('download_path').value,
+                        subtitles: document.getElementById('download_subtitles').checked,
+                        thumbnail: document.getElementById('download_thumbnail').checked,
+                        proxy: {
+                            enabled: document.getElementById('proxy_enabled').checked,
+                            url: document.getElementById('proxy_url').value
+                        }
+                    },
+                    processing: {
+                        clip_duration: parseInt(document.getElementById('clip_duration').value),
+                        clips_per_video: parseInt(document.getElementById('clips_per_video').value),
+                        output_format: document.getElementById('output_format').value,
+                        video_bitrate: parseInt(document.getElementById('video_bitrate').value),
+                        auto_crop: document.getElementById('auto_crop').checked,
+                        add_watermark: document.getElementById('add_watermark').checked,
+                        filter_duplicates: document.getElementById('filter_duplicates').checked,
+                        filter_low_quality: document.getElementById('filter_low_quality').checked,
+                        exclude_keywords: document.getElementById('exclude_keywords').value.split(',').map(k => k.trim()).filter(k => k)
+                    },
+                    scenarios: {
+                        auto_search: document.getElementById('scenario_auto_search').checked,
+                        auto_download: document.getElementById('scenario_auto_download').checked,
+                        auto_analyze: document.getElementById('scenario_auto_analyze').checked,
+                        auto_process: document.getElementById('scenario_auto_process').checked,
+                        auto_run_interval: parseInt(document.getElementById('auto_run_interval').value),
+                        notify_on_complete: document.getElementById('notify_on_complete').checked,
+                        notify_on_error: document.getElementById('notify_on_error').checked
+                    }
+                };
+                
+                const response = await fetch('/api/config/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                if (!response.ok) throw new Error('Ошибка сохранения настроек');
+                
+                showToast('✅ Настройки успешно сохранены');
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showToast('❌ Ошибка сохранения настроек', true);
+            }
+        }
+
+        // Экспорт настроек
+        async function exportSettings() {
+            try {
+                const response = await fetch('/api/config/get');
+                const config = await response.json();
+                
+                const dataStr = JSON.stringify(config, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `reshorts-config-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                showToast('✅ Настройки экспортированы');
+            } catch (error) {
+                console.error('Error exporting settings:', error);
+                showToast('❌ Ошибка экспорта настроек', true);
+            }
+        }
+
+        // Импорт настроек
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = async (e) => {
+                try {
+                    const file = e.target.files[0];
+                    const text = await file.text();
+                    const config = JSON.parse(text);
+                    
+                    const response = await fetch('/api/config/save', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(config)
+                    });
+                    
+                    if (!response.ok) throw new Error('Ошибка импорта');
+                    
+                    await loadSettings();
+                    showToast('✅ Настройки импортированы');
+                } catch (error) {
+                    console.error('Error importing settings:', error);
+                    showToast('❌ Ошибка импорта настроек', true);
+                }
+            };
+            
+            input.click();
+        }
+
+        // Загрузить настройки при загрузке страницы
+        window.addEventListener('load', loadSettings);
+    </script>
+</body>
+</html>

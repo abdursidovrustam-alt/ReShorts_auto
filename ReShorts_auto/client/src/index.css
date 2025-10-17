@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 171717;
+    --foreground: 245 245 245;
+
+    --card: 38 38 38;
+    --card-foreground: 245 245 245;
+
+    --popover: 38 38 38;
+    --popover-foreground: 245 245 245;
+
+    --primary: 6 182 212;
+    --primary-foreground: 10 10 10;
+
+    --secondary: 38 38 38;
+    --secondary-foreground: 245 245 245;
+
+    --muted: 38 38 38;
+    --muted-foreground: 163 163 163;
+
+    --accent: 64 64 64;
+    --accent-foreground: 245 245 245;
+
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+
+    --border: 64 64 64;
+    --input: 64 64 64;
+    --ring: 6 182 212;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+/* Полоса прокрутки */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #06B6D4;
+}

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReShorts Auto - Поиск и анализ вирусных видео</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковая навигация -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">🎬 ReShorts</h1>
+                <p class="subtitle">Viral Video Manager</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Дашборд</span>
+                </li>
+                <li class="nav-item" data-page="search">
+                    <span class="icon">🔍</span>
+                    <span>Поиск видео</span>
+                </li>
+                <li class="nav-item" data-page="files">
+                    <span class="icon">📁</span>
+                    <span>Файлы</span>
+                </li>
+                <li class="nav-item" data-page="analyze">
+                    <span class="icon">🤖</span>
+                    <span>AI Анализ</span>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <span class="icon">⚙️</span>
+                    <span>Настройки</span>
+                </li>
+                <li class="nav-item" data-page="status">
+                    <span class="icon">🎯</span>
+                    <span>Статус системы</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="status-dot online"></span>
+                    <span>Backend активен</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Dashboard -->
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+                    <h2>Статистика и активность</h2>
+                    <p class="page-description">Общая информация о работе системы</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📥</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-downloaded">0</div>
+                            <div class="stat-label">Скачано видео</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🤖</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-analyzed">0</div>
+                            <div class="stat-label">Проанализировано</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">✂️</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-processed">0</div>
+                            <div class="stat-label">Обработано</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-success">0%</div>
+                            <div class="stat-label">Успешность</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>График активности (7 дней)</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Последние операции</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="recent-operations" class="operations-list">
+                                <p class="empty-state">Нет операций</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search -->
+            <section id="search" class="page">
+                <div class="page-header">
+                    <h2>Поиск вирусных видео</h2>
+                    <p class="page-description">Найдите популярные видео с расширенными фильтрами</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Фильтры поиска</h3>
+                        <button class="btn btn-secondary btn-sm" id="save-preset-btn">💾 Сохранить пресет</button>
+                    </div>
+                    <div class="card-body">
+                        <form id="search-form" class="search-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Платформа</label>
+                                    <select name="platform" id="platform">
+                                        <option value="all">Все платформы</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="tiktok">TikTok</option>
+                                        <option value="instagram">Instagram</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Поисковый запрос</label>
+                                    <input type="text" name="query" id="query" placeholder="Введите тему или ключевые слова">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Минимум просмотров</label>
+                                    <input type="number" name="min_views" id="min_views" value="1000">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Максимум просмотров</label>
+                                    <input type="number" name="max_views" id="max_views" value="10000000">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Минимум лайков</label>
+                                    <input type="number" name="min_likes" id="min_likes" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Длительность (мин, сек)</label>
+                                    <input type="number" name="duration_min" id="duration_min" value="0">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Длительность (макс, сек)</label>
+                                    <input type="number" name="duration_max" id="duration_max" value="300">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Engagement (%)</label>
+                                    <input type="number" name="min_engagement" id="min_engagement" value="0" step="0.1">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Период публикации</label>
+                                    <select name="date_range" id="date_range">
+                                        <option value="all">Все время</option>
+                                        <option value="today">Сегодня</option>
+                                        <option value="this_week">Эта неделя</option>
+                                        <option value="this_month">Этот месяц</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Исключить слова (через запятую)</label>
+                                    <input type="text" name="exclude_keywords" id="exclude_keywords" placeholder="spam, ads">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" id="search-btn">
+                                    <span class="btn-text">🔍 Найти видео</span>
+                                    <span class="btn-loader" style="display: none;">⏳ Поиск...</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="load-preset-btn">📂 Загрузить пресет</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card" id="search-results" style="display: none;">
+                    <div class="card-header">
+                        <h3>Результаты поиска <span id="results-count">(0)</span></h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="videos-grid" class="videos-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Files -->
+            <section id="files" class="page">
+                <div class="page-header">
+                    <h2>Управление файлами</h2>
+                    <p class="page-description">Скачанные и обработанные видео</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Список файлов</h3>
+                        <button class="btn btn-secondary btn-sm" id="refresh-files-btn">🔄 Обновить</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="files-list" class="files-list">
+                            <p class="empty-state">Загрузка...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Analyze -->
+            <section id="analyze" class="page">
+                <div class="page-header">
+                    <h2>AI Анализ видео</h2>
+                    <p class="page-description">Анализ контента с помощью искусственного интеллекта</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Настройки анализа</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="analyze-form" class="analyze-form">
+                            <div class="form-group">
+                                <label>Данные видео (JSON или описание)</label>
+                                <textarea name="video_data" id="video_data" rows="8" placeholder='{"title": "...", "description": "...", "views": 10000}'></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Промпт для анализа (опционально)</label>
+                                <textarea name="prompt" id="analyze_prompt" rows="4" placeholder="Например: Проанализируй, почему это видео стало вирусным"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="analyze-btn">
+                                <span class="btn-text">🤖 Начать анализ</span>
+                                <span class="btn-loader" style="display: none;">⏳ Анализ...</span>
+                            </button>
+                        </form>
+
+                        <div id="analyze-result" class="analyze-result" style="display: none;">
+                            <h4>Результат анализа:</h4>
+                            <div id="analyze-output" class="analyze-output"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section id="settings" class="page">
+                <div class="page-header">
+                    <h2>Настройки системы</h2>
+                    <p class="page-description">Конфигурация всех модулей ReShorts</p>
+                </div>
+
+                <div class="settings-grid">
+                    <!-- Search Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>🔍 Настройки поиска</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Максимум результатов</label>
+                                <input type="number" id="config-max-results" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Период по умолчанию</label>
+                                <select id="config-date-range">
+                                    <option value="all">Все время</option>
+                                    <option value="this_week">Эта неделя</option>
+                                    <option value="this_month">Этот месяц</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Мин. просмотры</label>
+                                <input type="number" id="config-min-views" value="1000">
+                            </div>
+                            <div class="form-group">
+                                <label>Мин. engagement (%)</label>
+                                <input type="number" id="config-min-engagement" value="5" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>🤖 Настройки AI</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Таймаут (сек)</label>
+                                <input type="number" id="config-ai-timeout" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label>Макс. попытки</label>
+                                <input type="number" id="config-ai-retries" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="config-ai-cache">
+                                    <span>Включить кэширование</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📥 Настройки загрузки</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Качество видео</label>
+                                <select id="config-video-quality">
+                                    <option value="best">Лучшее</option>
+                                    <option value="high">Высокое</option>
+                                    <option value="medium">Среднее</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Макс. размер файла (МБ)</label>
+                                <input type="number" id="config-max-size" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="config-subtitles">
+                                    <span>Скачивать субтитры</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="config-thumbnail" checked>
+                                    <span>Скачивать обложки</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Processing Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>✂️ Настройки обработки</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Длительность клипа (сек)</label>
+                                <input type="number" id="config-clip-duration" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label>Клипов на видео</label>
+                                <input type="number" id="config-clips-per-video" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label>Видео битрейт (kbps)</label>
+                                <input type="number" id="config-video-bitrate" value="2500">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="config-auto-crop" checked>
+                                    <span>Автообрезка</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="config-filter-duplicates" checked>
+                                    <span>Фильтровать дубликаты</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn btn-primary" id="save-config-btn">
+                        <span class="btn-text">💾 Сохранить все настройки</span>
+                        <span class="btn-loader" style="display: none;">⏳ Сохранение...</span>
+                    </button>
+                    <button class="btn btn-secondary" id="reset-config-btn">🔄 Сбросить к умолчаниям</button>
+                </div>
+            </section>
+
+            <!-- Status -->
+            <section id="status" class="page">
+                <div class="page-header">
+                    <h2>Статус системы</h2>
+                    <p class="page-description">Состояние всех модулей и сервисов</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Загрузчики видео</h3>
+                        <button class="btn btn-secondary btn-sm" id="refresh-status-btn">🔄 Обновить</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="downloaders-status" class="status-list">
+                            <p class="empty-state">Загрузка...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>AI провайдеры</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="ai-status" class="status-list">
+                            <p class="empty-state">Загрузка...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="preset-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Сохранить пресет фильтров</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Название пресета</label>
+                    <input type="text" id="preset-name" placeholder="Например: Вирусные ролики">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirm-save-preset">💾 Сохранить</button>
+                <button class="btn btn-secondary" id="cancel-save-preset">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="load-preset-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Загрузить пресет</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="presets-list" class="presets-list">
+                    <p class="empty-state">Нет сохраненных пресетов</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-load-preset">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="video-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="video-modal-title">Детали видео</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="video-modal-body">
+                <!-- Будет заполнено динамически -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="download-video-btn">📥 Скачать</button>
+                <button class="btn btn-secondary" id="close-video-modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div id="notifications" class="notifications"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
