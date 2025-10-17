@@ -1,0 +1,17 @@
+2025-10-17 18:51:40 - __main__ - INFO - ✅ Конфигурация загружена
+2025-10-17 18:51:40 - modules.downloaders.ytdlp_downloader - ERROR - ❌ yt-dlp не установлен. Установите: pip install yt-dlp
+2025-10-17 18:51:40 - modules.universal_downloader - WARNING - ⚠️ yt-dlp недоступен: yt-dlp не найден
+2025-10-17 18:51:40 - modules.universal_downloader - INFO - ✅ Requests загрузчик инициализирован
+2025-10-17 18:51:40 - ai_analyzer.providers.gpt4free_provider - ERROR - ❌ g4f не установлен. Установите: pip install g4f
+2025-10-17 18:51:40 - ai_analyzer.multi_provider - WARNING - ⚠️ GPT4Free недоступен: g4f не найден
+2025-10-17 18:51:40 - ai_analyzer.providers.gemini_provider - ERROR - ❌ google-generativeai не установлен. Установите: pip install google-generativeai
+2025-10-17 18:51:40 - ai_analyzer.multi_provider - WARNING - ⚠️ Gemini недоступен: google-generativeai не найден
+2025-10-17 18:51:40 - ai_analyzer.multi_provider - ERROR - ❌ Нет доступных AI провайдеров!
+2025-10-17 18:51:40 - __main__ - INFO - ✅ Директории созданы
+2025-10-17 18:51:40 - __main__ - INFO - ✅ ReShorts приложение инициализировано
+2025-10-17 18:51:40 - __main__ - INFO - 🚀 Запуск ReShorts на http://127.0.0.1:5000
+2025-10-17 18:51:40 - __main__ - INFO - 💻 Операционная система: posix
+2025-10-17 18:51:40 - __main__ - INFO - 📁 Рабочая директория: /workspace/ReShorts_Windows
+2025-10-17 18:51:40 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-10-17 18:51:40 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
